@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Advanced GST Tool — Pushpak Kumar</title>
+<link rel="icon" href="../assets/images/head logo.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#C9A84C;--gold-l:#E2C97A;--gold-dim:rgba(201,168,76,0.10);--gold-bdr:rgba(201,168,76,0.25);--bg:#08090B;--card:#0E1013;--card2:#13151A;--card3:#191C22;--t1:#F0EBE0;--t2:#8A8272;--t3:#3A352C;--div:rgba(240,235,224,0.06);--green:#22c55e;--red:#ef4444;--blue:#60a5fa;--f-d:'Cormorant Garamond',Georgia,serif;--f-b:'DM Sans',sans-serif;--f-m:'JetBrains Mono',monospace;--r:12px;--rl:18px;--rx:24px;--ease:cubic-bezier(0.25,0.46,0.45,0.94);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--f-b);background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 20%,rgba(8,9,11,0.4) 0%,rgba(8,9,11,0.92) 100%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='rgba(201%2C168%2C76%2C0.04)' stroke-width='0.5'%3E%3Crect x='3' y='3' width='54' height='54' rx='1'/%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='57' cy='3' r='1'/%3E%3Ccircle cx='3' cy='57' r='1'/%3E%3Ccircle cx='57' cy='57' r='1'/%3E%3C/g%3E%3C/svg%3E");background-size:60px 60px;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 20px 60px;}
+#hdr{position:sticky;top:0;z-index:100;padding:10px 0;}
+.hdr-inner{background:rgba(14,16,19,0.92);backdrop-filter:blur(20px);border:1px solid var(--div);border-radius:var(--rx);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,0.6);}
+.hdr-left{display:flex;align-items:center;gap:14px;}
+.hdr-title{font-family:var(--f-d);font-size:17px;font-weight:700;color:var(--t1);}
+.hdr-sub{font-family:var(--f-m);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);}
+.hdr-right{display:flex;align-items:center;gap:10px;}
+.hdr-back{font-family:var(--f-m);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t2);border:1px solid var(--div);padding:7px 14px;border-radius:20px;transition:all .25s var(--ease);}
+.hdr-back:hover{color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);}
+.hdr-badge{font-family:var(--f-m);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#08090B;background:var(--gold);padding:7px 14px;border-radius:20px;font-weight:600;}
+.page-hero{padding:32px 0 24px;}
+.page-eyebrow{font-family:var(--f-m);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:10px;}
+.page-eyebrow::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.page-h1{font-family:var(--f-d);font-size:clamp(30px,4vw,52px);font-weight:700;line-height:1.1;color:var(--t1);margin-bottom:8px;}
+.page-h1 em{color:var(--gold);font-style:italic;}
+.page-sub{font-size:0.88rem;color:var(--t2);line-height:1.75;max-width:600px;}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0;}
+.tab{font-family:var(--f-m);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 18px;border-radius:20px;border:1px solid var(--div);color:var(--t2);background:transparent;cursor:pointer;transition:all .2s var(--ease);}
+.tab:hover{color:var(--t1);border-color:var(--gold-bdr);}
+.tab.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+.panel{display:none;}.panel.active{display:block;}
+.card{background:var(--card);border:1px solid var(--div);border-radius:var(--rx);padding:28px;margin-bottom:16px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-bdr),transparent);}
+.card-title{font-family:var(--f-d);font-size:20px;font-weight:700;color:var(--t1);margin-bottom:6px;}
+.card-sub{font-size:0.82rem;color:var(--t2);margin-bottom:20px;line-height:1.6;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.g-main{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start;}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field:last-child{margin-bottom:0;}
+label{font-family:var(--f-m);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);}
+input[type=text],input[type=number],select,textarea{background:var(--card2);border:1px solid var(--div);border-radius:var(--r);padding:11px 14px;color:var(--t1);font-family:var(--f-b);font-size:0.88rem;outline:none;width:100%;transition:border-color .2s,background .2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--gold-bdr);background:var(--card3);}
+input::placeholder,textarea::placeholder{color:var(--t3);}
+select option{background:var(--card2);}
+.radio-group{display:flex;gap:8px;flex-wrap:wrap;}
+.radio-btn{font-family:var(--f-m);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 16px;border-radius:20px;border:1px solid var(--div);color:var(--t2);background:transparent;cursor:pointer;transition:all .2s var(--ease);}
+.radio-btn.sel{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+.result-box{background:var(--card2);border:1px solid var(--div);border-radius:var(--rl);padding:20px;}
+.res-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--div);gap:12px;}
+.res-row:last-child{border-bottom:none;}
+.res-label{font-family:var(--f-m);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t2);}
+.res-value{font-family:var(--f-d);font-size:1rem;font-weight:600;color:var(--t1);text-align:right;}
+.res-value.gold{color:var(--gold);font-size:1.25rem;font-weight:700;}
+.res-value.green{color:var(--green);}
+.res-value.red{color:var(--red);}
+.res-value.blue{color:var(--blue);}
+.stat-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.chip{background:var(--card3);border:1px solid var(--div);border-radius:var(--r);padding:14px;text-align:center;}
+.chip-num{font-family:var(--f-d);font-size:1.4rem;font-weight:700;line-height:1;margin-bottom:4px;}
+.chip-lbl{font-family:var(--f-m);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:20px;border:none;cursor:pointer;font-family:var(--f-m);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;transition:all .25s var(--ease);}
+.btn-gold{background:var(--gold);color:#08090B !important;}
+.btn-gold:hover{background:var(--gold-l);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,0.3);}
+.btn-outline{background:transparent;color:var(--t2);border:1px solid var(--div);}
+.btn-outline:hover{color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);}
+.btn-green{background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.25);}
+.btn-green:hover{background:var(--green);color:#08090B;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.tbl-wrap{overflow-x:auto;margin-top:12px;border-radius:var(--r);border:1px solid var(--div);}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+thead tr{background:var(--card2);}
+thead th{font-family:var(--f-m);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--t2);padding:12px 14px;text-align:left;border-bottom:1px solid var(--div);}
+tbody tr{border-bottom:1px solid var(--div);transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--card2);}
+tbody td{padding:11px 14px;color:var(--t1);vertical-align:middle;}
+tbody td.gold{color:var(--gold);font-family:var(--f-d);font-weight:600;}
+tbody td.green{color:var(--green);}
+tbody td.red{color:var(--red);}
+tfoot td{background:var(--card2);padding:12px 14px;font-family:var(--f-d);font-size:1rem;font-weight:700;color:var(--gold);border-top:1px solid var(--gold-bdr);}
+.itc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.itc-box{background:var(--card2);border:1px solid var(--div);border-radius:var(--r);padding:16px;border-top:3px solid;}
+.itc-box.ib{border-top-color:var(--blue);}
+.itc-box.ic{border-top-color:var(--gold);}
+.itc-box.is{border-top-color:var(--green);}
+.itc-type{font-family:var(--f-m);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--t2);margin-bottom:6px;}
+.itc-amount{font-family:var(--f-d);font-size:1.5rem;font-weight:700;line-height:1;margin-bottom:8px;}
+.itc-box.ib .itc-amount{color:var(--blue);}
+.itc-box.ic .itc-amount{color:var(--gold);}
+.itc-box.is .itc-amount{color:var(--green);}
+.sec-div{display:flex;align-items:center;gap:12px;margin:20px 0 16px;}
+.sec-div-line{flex:1;height:1px;background:var(--div);}
+.sec-div-lbl{font-family:var(--f-m);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--t3);white-space:nowrap;}
+.checklist{display:flex;flex-direction:column;gap:8px;}
+.check-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card2);border:1px solid var(--div);border-radius:var(--r);transition:border-color .2s;}
+.check-item:hover{border-color:var(--gold-bdr);}
+.check-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.check-dot.done{background:rgba(34,197,94,0.15);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
+.check-dot.warn{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-bdr);}
+.check-dot.miss{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.3);}
+.check-text{flex:1;}
+.check-name{font-size:0.88rem;font-weight:600;color:var(--t1);margin-bottom:2px;}
+.check-desc{font-size:0.75rem;color:var(--t2);}
+.check-due{font-family:var(--f-m);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);flex-shrink:0;text-align:right;}
+.rate-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.rate-chip{font-family:var(--f-m);font-size:9px;letter-spacing:0.1em;padding:6px 12px;border-radius:20px;border:1px solid var(--div);color:var(--t2);background:transparent;cursor:pointer;transition:all .2s;}
+.rate-chip:hover,.rate-chip.active{color:var(--gold);background:var(--gold-dim);border-color:var(--gold-bdr);}
+.rate-item{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--card2);border:1px solid var(--div);border-radius:var(--r);margin-bottom:6px;gap:12px;transition:border-color .2s;}
+.rate-item:hover{border-color:var(--gold-bdr);}
+.rate-name{font-size:0.88rem;color:var(--t1);font-weight:500;}
+.rate-hsn{font-family:var(--f-m);font-size:9px;color:var(--t2);letter-spacing:0.06em;margin-top:2px;}
+.rate-pct{font-family:var(--f-d);font-size:1.4rem;font-weight:700;color:var(--gold);}
+.notice{display:flex;gap:12px;padding:14px 18px;border-radius:var(--r);margin-top:16px;}
+.notice.info{background:var(--gold-dim);border:1px solid var(--gold-bdr);}
+.notice.success{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);}
+.notice.warn{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);}
+.notice-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.notice-text{font-size:0.82rem;line-height:1.75;color:var(--t2);}
+.notice-text strong{color:var(--t1);}
+.recon-input{background:transparent;border:none;color:var(--t1);font-family:var(--f-b);font-size:0.82rem;width:100%;outline:none;text-align:right;padding:0;}
+.recon-input:focus{color:var(--gold);}
+@media(max-width:768px){
+  .g2,.g3,.g-main{grid-template-columns:1fr;}
+  .stat-chips{grid-template-columns:1fr 1fr 1fr;}
+  .itc-grid{grid-template-columns:1fr;}
+  .card{padding:18px 14px;}
+  .tab{font-size:9px;padding:7px 12px;}
+}
+@media(max-width:480px){
+  .stat-chips{grid-template-columns:1fr 1fr;}
+  .btn-row{flex-direction:column;}
+  .btn{width:100%;}
+  .itc-grid{grid-template-columns:1fr;}
+}
+@media print{
+  #hdr,.tabs,.btn-row{display:none!important;}
+  .panel{display:block!important;}
+  body::before,body::after{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div id="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-left">
+      <svg viewBox="0 0 50 50" width="34" height="34" style="filter:drop-shadow(0 0 8px rgba(201,168,76,0.3))">
+        <polygon points="25,3 47,14 47,36 25,47 3,36 3,14" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="25" y="31" text-anchor="middle" fill="#F0EBE0" font-family="'Cormorant Garamond'" font-size="13" font-weight="700">PKCP</text>
+      </svg>
+      <div><div class="hdr-title">Advanced GST Tool Suite</div><div class="hdr-sub">Pushpak Kumar · BDO Articleship</div></div>
+    </div>
+    <div class="hdr-right">
+      <a href="../index.html" class="hdr-back">← Portfolio</a>
+      <span class="hdr-badge">GST Suite v2</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-eyebrow">Professional GST Tool Suite</div>
+  <h1 class="page-h1">Everything GST — <em>in one place.</em></h1>
+  <p class="page-sub">From basic tax computation to GSTR reconciliation, ITC utilisation sequencing, HSN rate finder, compliance calendar, and RCM calculator — built with real CA articleship knowledge from BDO India.</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('calc')">🧮 Calculator</button>
+  <button class="tab" onclick="switchTab('recon')">🔁 GSTR Reconciliation</button>
+  <button class="tab" onclick="switchTab('itc')">💳 ITC Utilisation</button>
+  <button class="tab" onclick="switchTab('hsn')">📦 HSN Finder</button>
+  <button class="tab" onclick="switchTab('comp')">📅 Compliance Calendar</button>
+  <button class="tab" onclick="switchTab('rcm')">↩ RCM Calculator</button>
+</div>
+
+<!-- ═══ PANEL 1: GST CALCULATOR ═══ -->
+<div id="panel-calc" class="panel active">
+  <div class="g-main">
+    <div>
+      <div class="card">
+        <div class="card-title">GST Calculator</div>
+        <div class="card-sub">Compute CGST / SGST / IGST for all slabs. Supports exclusive and inclusive (MRP) modes.</div>
+        <div class="g2">
+          <div class="field"><label>Taxable Value (₹)</label><input type="number" id="c_taxable" value="100000" min="0" oninput="calcGST()"/></div>
+          <div class="field"><label>GST Rate / Slab</label>
+            <select id="c_rate" onchange="calcGST()">
+              <option value="0">0% — Exempt / Nil Rated</option>
+              <option value="0.25">0.25% — Rough Diamonds</option>
+              <option value="3">3% — Gold Jewellery</option>
+              <option value="5" selected>5% — Essential Goods</option>
+              <option value="12">12% — Standard Goods</option>
+              <option value="18">18% — Most Services</option>
+              <option value="28">28% — Luxury / Sin Goods</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Transaction Type</label>
+          <div class="radio-group">
+            <button class="radio-btn sel" id="rb_intra" onclick="setTxn('intra')">Intrastate (CGST+SGST)</button>
+            <button class="radio-btn" id="rb_inter" onclick="setTxn('inter')">Interstate (IGST)</button>
+            <button class="radio-btn" id="rb_export" onclick="setTxn('export')">Export (Zero Rated)</button>
+          </div>
+        </div>
+        <div class="g3" style="margin-top:4px;">
+          <div class="field"><label>Cess (₹)</label><input type="number" id="c_cess" value="0" min="0" oninput="calcGST()"/></div>
+          <div class="field"><label>Discount (₹)</label><input type="number" id="c_disc" value="0" min="0" oninput="calcGST()"/></div>
+          <div class="field"><label>Quantity</label><input type="number" id="c_qty" value="1" min="1" oninput="calcGST()"/></div>
+        </div>
+        <div class="field" style="margin-top:4px;"><label>Mode</label>
+          <div class="radio-group">
+            <button class="radio-btn sel" id="rb_excl" onclick="setMode('excl')">Exclusive (Add Tax on Price)</button>
+            <button class="radio-btn" id="rb_incl" onclick="setMode('incl')">Inclusive (Extract Tax from MRP)</button>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="resetCalc()">Reset</button>
+          <button class="btn btn-green" onclick="dlSummary()">⬇ Download Summary</button>
+        </div>
+      </div>
+
+      <!-- INVOICE BUILDER -->
+      <div class="card">
+        <div class="card-title">Multi-Item Invoice Builder</div>
+        <div class="card-sub">Add line items. GST computed per item. Export as CSV.</div>
+        <div class="tbl-wrap">
+          <table id="invTable">
+            <thead><tr><th>#</th><th>Description</th><th>HSN</th><th>Qty</th><th>Unit Rate (₹)</th><th>GST %</th><th>Taxable (₹)</th><th>GST (₹)</th><th>Total (₹)</th><th></th></tr></thead>
+            <tbody id="invBody">
+              <tr data-id="1">
+                <td style="color:var(--t3);font-family:var(--f-m);font-size:9px;">1</td>
+                <td><input class="recon-input" style="text-align:left;" value="Consulting Services"/></td>
+                <td><input class="recon-input" value="9983" style="width:60px;"/></td>
+                <td><input class="recon-input" type="number" value="2" style="width:48px;" oninput="recalcInv()"/></td>
+                <td><input class="recon-input" type="number" value="25000" oninput="recalcInv()"/></td>
+                <td><select style="background:transparent;border:none;color:var(--gold);font-family:var(--f-m);font-size:9px;outline:none;cursor:pointer;" onchange="recalcInv()"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></td>
+                <td class="gold itx">50,000.00</td><td class="gold igst">9,000.00</td><td class="gold itot">59,000.00</td>
+                <td><button onclick="removeRow(1)" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:18px;line-height:1;">×</button></td>
+              </tr>
+            </tbody>
+            <tfoot><tr><td colspan="6">TOTAL</td><td id="inv_tx">50,000.00</td><td id="inv_gs">9,000.00</td><td id="inv_tt">59,000.00</td><td></td></tr></tfoot>
+          </table>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="addRow()">+ Add Item</button>
+          <button class="btn btn-green" onclick="exportInv()">⬇ Export CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY RESULT PANEL -->
+    <div>
+      <div class="card" style="position:sticky;top:80px;">
+        <div class="card-title">Live Result</div>
+        <div class="result-box">
+          <div class="res-row"><span class="res-label">Taxable Value</span><span class="res-value" id="r_tax">₹ 1,00,000.00</span></div>
+          <div class="res-row"><span class="res-label">Discount</span><span class="res-value red" id="r_disc">- ₹ 0.00</span></div>
+          <div class="res-row"><span class="res-label">Net Taxable</span><span class="res-value blue" id="r_net">₹ 1,00,000.00</span></div>
+          <div class="res-row" id="rr_cg"><span class="res-label">CGST</span><span class="res-value" id="r_cg">₹ 2,500.00</span></div>
+          <div class="res-row" id="rr_sg"><span class="res-label">SGST</span><span class="res-value" id="r_sg">₹ 2,500.00</span></div>
+          <div class="res-row" id="rr_ig" style="display:none"><span class="res-label">IGST</span><span class="res-value" id="r_ig">₹ 5,000.00</span></div>
+          <div class="res-row"><span class="res-label">Cess</span><span class="res-value" id="r_cs">₹ 0.00</span></div>
+          <div class="res-row"><span class="res-label">Total GST</span><span class="res-value blue" id="r_tg">₹ 5,000.00</span></div>
+          <div class="res-row"><span class="res-label">Invoice Total</span><span class="res-value gold" id="r_tot">₹ 1,05,000.00</span></div>
+        </div>
+        <div class="stat-chips">
+          <div class="chip"><div class="chip-num" id="sc_eff" style="color:var(--gold);">5.0%</div><div class="chip-lbl">Eff. Rate</div></div>
+          <div class="chip"><div class="chip-num" id="sc_qty" style="color:var(--blue);">1</div><div class="chip-lbl">Units</div></div>
+          <div class="chip"><div class="chip-num" id="sc_mod" style="color:var(--green);">Excl.</div><div class="chip-lbl">Mode</div></div>
+        </div>
+        <div id="r_notice" class="notice info" style="margin-top:14px;"><div class="notice-icon">ℹ️</div><div class="notice-text"><strong>Intrastate</strong> — CGST and SGST each at half the applicable rate.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 2: RECONCILIATION ═══ -->
+<div id="panel-recon" class="panel">
+  <div class="card">
+    <div class="card-title">GSTR-2A / 2B vs Purchase Register Reconciliation</div>
+    <div class="card-sub">Enter Books and Portal values side by side. Mismatches are auto-identified. Export the reconciliation statement for CA review.</div>
+    <div class="g2" style="margin-bottom:16px;">
+      <div class="field"><label>Financial Year</label><select id="rfy"><option>2024–25</option><option>2023–24</option><option>2022–23</option></select></div>
+      <div class="field"><label>Month</label><select id="rmo"><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option><option>January</option><option>February</option><option>March</option></select></div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Supplier GSTIN</th><th>Name</th><th>Books Taxable</th><th>Books GST</th><th>Portal Taxable</th><th>Portal GST</th><th>Taxable Diff</th><th>GST Diff</th><th>Status</th></tr></thead>
+        <tbody id="rBody"></tbody>
+        <tfoot><tr><td colspan="3">TOTAL</td><td id="rt_bt">0.00</td><td id="rt_bg">0.00</td><td id="rt_pt">0.00</td><td id="rt_pg">0.00</td><td id="rt_dt" class="gold">0.00</td><td id="rt_dg" class="gold">0.00</td><td></td></tr></tfoot>
+      </table>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="addRecon()">+ Add Supplier</button>
+      <button class="btn btn-gold" onclick="runRecon()">🔁 Reconcile</button>
+      <button class="btn btn-green" onclick="exportRecon()">⬇ Export CSV</button>
+    </div>
+    <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-lbl">Summary</div><div class="sec-div-line"></div></div>
+    <div class="g3">
+      <div class="chip"><div class="chip-num green" id="rs_m">0</div><div class="chip-lbl">Matched</div></div>
+      <div class="chip"><div class="chip-num" id="rs_d" style="color:var(--red);">0</div><div class="chip-lbl">Mismatched</div></div>
+      <div class="chip"><div class="chip-num gold" id="rs_i">₹ 0</div><div class="chip-lbl">ITC at Risk</div></div>
+    </div>
+    <div class="notice info" style="margin-top:14px;"><div class="notice-icon">💡</div><div class="notice-text"><strong>Tip:</strong> Differences arise from: supplier non-filing, rate mismatches, invoice date issues, or unrecorded credit notes. Follow up where GST diff exceeds ₹1,000 or 5% of invoice value.</div></div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 3: ITC ═══ -->
+<div id="panel-itc" class="panel">
+  <div class="card">
+    <div class="card-title">ITC Utilisation Tracker</div>
+    <div class="card-sub">Apply the correct ITC set-off sequence as per GST Rules 88A, 49(5). IGST ITC first, then CGST, then SGST — in that order.</div>
+    <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-lbl">Available ITC Balances</div><div class="sec-div-line"></div></div>
+    <div class="itc-grid">
+      <div class="itc-box ib"><div class="itc-type">IGST ITC Available</div><div class="itc-amount" id="bal_i">₹ 50,000</div><input type="number" id="itc_i" value="50000" oninput="calcITC()"/></div>
+      <div class="itc-box ic"><div class="itc-type">CGST ITC Available</div><div class="itc-amount" id="bal_c">₹ 20,000</div><input type="number" id="itc_c" value="20000" oninput="calcITC()"/></div>
+      <div class="itc-box is"><div class="itc-type">SGST / UTGST ITC</div><div class="itc-amount" id="bal_s">₹ 20,000</div><input type="number" id="itc_s" value="20000" oninput="calcITC()"/></div>
+    </div>
+    <div class="sec-div" style="margin-top:24px;"><div class="sec-div-line"></div><div class="sec-div-lbl">Output Tax Liability</div><div class="sec-div-line"></div></div>
+    <div class="itc-grid">
+      <div class="itc-box ib"><div class="itc-type">IGST Liability</div><input type="number" id="out_i" value="30000" oninput="calcITC()"/></div>
+      <div class="itc-box ic"><div class="itc-type">CGST Liability</div><input type="number" id="out_c" value="15000" oninput="calcITC()"/></div>
+      <div class="itc-box is"><div class="itc-type">SGST Liability</div><input type="number" id="out_s" value="15000" oninput="calcITC()"/></div>
+    </div>
+    <div class="sec-div" style="margin-top:24px;"><div class="sec-div-line"></div><div class="sec-div-lbl">Utilisation Steps (GST Rules 88A, 49)</div><div class="sec-div-line"></div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Step</th><th>ITC Type Used</th><th>Against Liability</th><th>Amount (₹)</th><th>ITC Balance After (₹)</th></tr></thead>
+      <tbody id="itcBody"></tbody>
+      <tfoot><tr><td colspan="3">Cash Payment Required</td><td id="itc_cash" colspan="2" style="color:var(--red);font-size:1rem;">₹ 0.00</td></tr></tfoot>
+    </table></div>
+    <div id="itc_notice" class="notice success" style="margin-top:14px;"><div class="notice-icon">✅</div><div class="notice-text">All output liability covered by ITC. <strong>No cash payment required.</strong></div></div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 4: HSN FINDER ═══ -->
+<div id="panel-hsn" class="panel">
+  <div class="card">
+    <div class="card-title">HSN / SAC Rate Finder</div>
+    <div class="card-sub">Search by commodity name, HSN code, or SAC code to find the applicable GST rate.</div>
+    <div class="field"><label>Search</label><input type="text" id="hsn_q" placeholder="e.g. rice, consulting, software, 9983, gold…" oninput="searchHSN()"/></div>
+    <div class="rate-chips">
+      <button class="rate-chip" onclick="filterHSN(0)">0% Exempt</button>
+      <button class="rate-chip" onclick="filterHSN(5)">5%</button>
+      <button class="rate-chip" onclick="filterHSN(12)">12%</button>
+      <button class="rate-chip" onclick="filterHSN(18)">18%</button>
+      <button class="rate-chip" onclick="filterHSN(28)">28%</button>
+      <button class="rate-chip active" onclick="filterHSN('all')">All</button>
+    </div>
+    <div id="hsnResults" style="margin-top:16px;"></div>
+    <div class="notice info"><div class="notice-icon">⚠️</div><div class="notice-text"><strong>Disclaimer:</strong> Rates shown are indicative based on common GST notifications. Always verify with the latest CBIC rate schedule or consult your CA before filing. Rates may change per GST Council decisions.</div></div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 5: COMPLIANCE ═══ -->
+<div id="panel-comp" class="panel">
+  <div class="card">
+    <div class="card-title">GST Compliance Calendar</div>
+    <div class="card-sub">Due dates for all GSTR filings. Select taxpayer category and month to see applicable deadlines and penalty reference.</div>
+    <div class="g2" style="margin-bottom:18px;">
+      <div class="field"><label>Taxpayer Type</label><select id="ctype" onchange="renderCal()"><option value="reg">Regular Taxpayer</option><option value="qrmp">QRMP (Quarterly)</option><option value="comp">Composition Scheme</option></select></div>
+      <div class="field"><label>Reference Month</label><select id="cmon" onchange="renderCal()"><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option selected>September</option><option>October</option><option>November</option><option>December</option><option>January</option><option>February</option><option>March</option></select></div>
+    </div>
+    <div class="checklist" id="calList"></div>
+    <div class="sec-div" style="margin-top:20px;"><div class="sec-div-line"></div><div class="sec-div-lbl">Penalty Reference</div><div class="sec-div-line"></div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Return</th><th>Late Fee / Day</th><th>Maximum</th><th>Interest on Tax</th></tr></thead>
+      <tbody>
+        <tr><td>GSTR-1</td><td>₹ 50 (₹ 20 nil return)</td><td>₹ 10,000</td><td>N/A</td></tr>
+        <tr><td>GSTR-3B</td><td>₹ 50 (₹ 20 nil return)</td><td>₹ 10,000</td><td class="gold">18% p.a.</td></tr>
+        <tr><td>GSTR-9 (Annual)</td><td>₹ 200 per day</td><td>0.25% of turnover</td><td>N/A</td></tr>
+        <tr><td>GSTR-9C</td><td>₹ 200 per day</td><td>0.25% of turnover</td><td>N/A</td></tr>
+        <tr><td>CMP-08</td><td>₹ 200 per day</td><td>₹ 5,000</td><td class="gold">18% p.a.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 6: RCM ═══ -->
+<div id="panel-rcm" class="panel">
+  <div class="card">
+    <div class="card-title">Reverse Charge Mechanism (RCM) Calculator</div>
+    <div class="card-sub">Under RCM the recipient pays GST instead of the supplier. Compute liability for all notified services and understand ITC eligibility.</div>
+    <div class="g2">
+      <div class="field"><label>Service Category</label>
+        <select id="rcm_svc" onchange="calcRCM()">
+          <option value="5">GTA — Goods Transport Agency (5%)</option>
+          <option value="18">Legal Services by Advocate (18%)</option>
+          <option value="18">Arbitral Tribunal Services (18%)</option>
+          <option value="18">Government / Local Authority Services (18%)</option>
+          <option value="18">Director Services to Company (18%)</option>
+          <option value="18">Import of Services (18%)</option>
+          <option value="18">Sec 9(4) — Unregistered Supplier (18%)</option>
+          <option value="18">Recovery Agent Services (18%)</option>
+          <option value="18">Author / Copyright Services (18%)</option>
+          <option value="5">Insurance Agent Services (5%)</option>
+        </select>
+      </div>
+      <div class="field"><label>Service Value (₹)</label><input type="number" id="rcm_val" value="100000" oninput="calcRCM()"/></div>
+    </div>
+    <div class="g2">
+      <div class="field"><label>Override GST Rate</label><select id="rcm_rate" onchange="calcRCM()"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
+      <div class="field"><label>Supply Type</label><select id="rcm_type" onchange="calcRCM()"><option value="intra">Intrastate (CGST+SGST)</option><option value="inter">Interstate (IGST)</option></select></div>
+    </div>
+    <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-lbl">RCM Computation</div><div class="sec-div-line"></div></div>
+    <div class="result-box">
+      <div class="res-row"><span class="res-label">Service Value</span><span class="res-value" id="rm_v">₹ 1,00,000.00</span></div>
+      <div class="res-row"><span class="res-label">GST Rate (RCM)</span><span class="res-value gold" id="rm_r">18%</span></div>
+      <div class="res-row" id="rm_cgr"><span class="res-label">CGST (RCM)</span><span class="res-value" id="rm_cg">₹ 9,000.00</span></div>
+      <div class="res-row" id="rm_sgr"><span class="res-label">SGST (RCM)</span><span class="res-value" id="rm_sg">₹ 9,000.00</span></div>
+      <div class="res-row" id="rm_igr" style="display:none"><span class="res-label">IGST (RCM)</span><span class="res-value" id="rm_ig">₹ 18,000.00</span></div>
+      <div class="res-row"><span class="res-label">Total RCM Liability</span><span class="res-value gold" id="rm_tot">₹ 18,000.00</span></div>
+      <div class="res-row"><span class="res-label">ITC Eligible?</span><span class="res-value green">Yes — Same Return Period</span></div>
+      <div class="res-row"><span class="res-label">Payment Mode</span><span class="res-value red">Cash Ledger Only</span></div>
+    </div>
+    <div class="notice warn" style="margin-top:14px;"><div class="notice-icon">⚠️</div><div class="notice-text"><strong>Important:</strong> RCM tax must be paid in cash only — existing ITC cannot be used to discharge RCM dues. However, ITC on RCM paid can be claimed in the same GSTR-3B as an inward supply under reverse charge.</div></div>
+    <div class="sec-div" style="margin-top:20px;"><div class="sec-div-line"></div><div class="sec-div-lbl">Common RCM Services Reference</div><div class="sec-div-line"></div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Service</th><th>Supplier</th><th>Recipient</th><th>Rate</th></tr></thead>
+      <tbody>
+        <tr><td>Goods Transport Agency</td><td>GTA</td><td>Registered Business</td><td class="gold">5% / 12%</td></tr>
+        <tr><td>Legal Services</td><td>Advocate / Firm</td><td>Any Business Entity</td><td class="gold">18%</td></tr>
+        <tr><td>Director Services</td><td>Director (Non-employee)</td><td>Company</td><td class="gold">18%</td></tr>
+        <tr><td>Import of Services</td><td>Foreign Supplier</td><td>Indian Registered Person</td><td class="gold">Applicable Rate</td></tr>
+        <tr><td>Insurance Agent</td><td>Agent</td><td>Insurance Company</td><td class="gold">18%</td></tr>
+        <tr><td>Author / Composer</td><td>Author</td><td>Publisher / Music Co.</td><td class="gold">18%</td></tr>
+        <tr><td>Unregistered Supplier Sec 9(4)</td><td>URD</td><td>Notified Sectors</td><td class="gold">Applicable Rate</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:28px 0;border-top:1px solid var(--div);margin-top:8px;">
+  <p style="font-family:var(--f-m);font-size:10px;letter-spacing:0.12em;color:var(--t3);text-transform:uppercase;">© 2025 Pushpak Kumar Charan Pahari · BDO Articleship · Advanced GST Tool Suite</p>
+  <a href="../index.html" style="font-family:var(--f-m);font-size:10px;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;margin-top:6px;display:block;">← Back to Portfolio</a>
+</div>
+</div>
+
+<script>
+const fmt=n=>'₹ '+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN=n=>Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+let txn='intra', mode='excl';
+
+/* TABS */
+function switchTab(id){
+  const ids=['calc','recon','itc','hsn','comp','rcm'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',ids[i]===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(id==='recon'&&!document.getElementById('rBody').children.length)initRecon();
+  if(id==='itc')calcITC();
+  if(id==='hsn')renderHSN(hsnDB);
+  if(id==='comp')renderCal();
+  if(id==='rcm')calcRCM();
+}
+function setTxn(t){txn=t;['intra','inter','export'].forEach(x=>document.getElementById('rb_'+x).classList.toggle('sel',x===t));calcGST();}
+function setMode(m){mode=m;['excl','incl'].forEach(x=>document.getElementById('rb_'+x).classList.toggle('sel',x===m));calcGST();}
+
+/* ── CALC ── */
+function calcGST(){
+  let raw=parseFloat(document.getElementById('c_taxable').value)||0;
+  const rate=parseFloat(document.getElementById('c_rate').value)||0;
+  const cess=parseFloat(document.getElementById('c_cess').value)||0;
+  const disc=parseFloat(document.getElementById('c_disc').value)||0;
+  const qty=parseFloat(document.getElementById('c_qty').value)||1;
+  raw*=qty;
+  let taxable,gst,cg=0,sg=0,ig=0;
+  if(mode==='incl'){taxable=raw/(1+rate/100);gst=raw-taxable;}
+  else{taxable=Math.max(raw-disc*qty,0);gst=taxable*rate/100;}
+  if(txn==='export')gst=0;
+  else if(txn==='intra'){cg=gst/2;sg=gst/2;}
+  else ig=gst;
+  const tgst=gst+cess, total=mode==='incl'?raw:taxable+tgst;
+  document.getElementById('r_tax').textContent=fmt(raw);
+  document.getElementById('r_disc').textContent='- '+fmt(disc*qty);
+  document.getElementById('r_net').textContent=fmt(taxable);
+  document.getElementById('r_cg').textContent=fmt(cg);
+  document.getElementById('r_sg').textContent=fmt(sg);
+  document.getElementById('r_ig').textContent=fmt(ig);
+  document.getElementById('r_cs').textContent=fmt(cess);
+  document.getElementById('r_tg').textContent=fmt(tgst);
+  document.getElementById('r_tot').textContent=fmt(total);
+  document.getElementById('sc_eff').textContent=(taxable>0?(tgst/taxable*100).toFixed(1):0)+'%';
+  document.getElementById('sc_qty').textContent=qty;
+  document.getElementById('sc_mod').textContent=mode==='incl'?'Incl.':'Excl.';
+  document.getElementById('rr_cg').style.display=txn==='intra'?'':'none';
+  document.getElementById('rr_sg').style.display=txn==='intra'?'':'none';
+  document.getElementById('rr_ig').style.display=txn==='inter'?'':'none';
+  const nm={intra:'<strong>Intrastate</strong> — CGST and SGST each at half rate.',inter:'<strong>Interstate</strong> — Full IGST applies.',export:'<strong>Zero-rated export</strong> — GST is NIL. File LUT or claim ITC refund.'};
+  document.getElementById('r_notice').innerHTML='<div class="notice-icon">ℹ️</div><div class="notice-text">'+nm[txn]+'</div>';
+}
+function resetCalc(){document.getElementById('c_taxable').value=100000;document.getElementById('c_rate').value=5;document.getElementById('c_cess').value=0;document.getElementById('c_disc').value=0;document.getElementById('c_qty').value=1;setTxn('intra');setMode('excl');}
+function dlSummary(){
+  const g=id=>document.getElementById(id)?.textContent||'';
+  dlFile(`GST SUMMARY — ${new Date().toLocaleDateString('en-IN')}\n\nTaxable: ${g('r_tax')}\nDiscount: ${g('r_disc')}\nNet Taxable: ${g('r_net')}\nCGST: ${g('r_cg')}\nSGST: ${g('r_sg')}\nIGST: ${g('r_ig')}\nCess: ${g('r_cs')}\nTotal GST: ${g('r_tg')}\nInvoice Total: ${g('r_tot')}\n\nGenerated by Pushpak Kumar Advanced GST Tool`,'gst_summary.txt');
+}
+
+/* INVOICE */
+let rid=2;
+function recalcInv(){
+  let tt=0,tg=0,tot=0;
+  document.querySelectorAll('#invBody tr').forEach(r=>{
+    const ins=r.querySelectorAll('input[type=number]');
+    const q=parseFloat(ins[0]?.value)||0,p=parseFloat(ins[1]?.value)||0;
+    const gp=parseFloat(r.querySelector('select').value)||0;
+    const tx=q*p,gs=tx*gp/100,to=tx+gs;
+    r.querySelector('.itx').textContent=fmtN(tx);
+    r.querySelector('.igst').textContent=fmtN(gs);
+    r.querySelector('.itot').textContent=fmtN(to);
+    tt+=tx;tg+=gs;tot+=to;
+  });
+  document.getElementById('inv_tx').textContent=fmtN(tt);
+  document.getElementById('inv_gs').textContent=fmtN(tg);
+  document.getElementById('inv_tt').textContent=fmtN(tot);
+}
+function addRow(){
+  const id=rid++;
+  const tr=document.createElement('tr');tr.dataset.id=id;
+  tr.innerHTML=`<td style="color:var(--t3);font-family:var(--f-m);font-size:9px;">${document.querySelectorAll('#invBody tr').length+1}</td>
+  <td><input class="recon-input" style="text-align:left;" placeholder="Description"/></td>
+  <td><input class="recon-input" placeholder="HSN" style="width:60px;"/></td>
+  <td><input class="recon-input" type="number" value="1" style="width:48px;" oninput="recalcInv()"/></td>
+  <td><input class="recon-input" type="number" value="0" oninput="recalcInv()"/></td>
+  <td><select style="background:transparent;border:none;color:var(--gold);font-family:var(--f-m);font-size:9px;outline:none;" onchange="recalcInv()"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></td>
+  <td class="gold itx">0.00</td><td class="gold igst">0.00</td><td class="gold itot">0.00</td>
+  <td><button onclick="removeRow(${id})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:18px;line-height:1;">×</button></td>`;
+  document.getElementById('invBody').appendChild(tr);
+}
+function removeRow(id){const r=document.querySelector(`#invBody tr[data-id="${id}"]`);if(r){r.remove();recalcInv();}}
+function exportInv(){
+  let c='Description,HSN,Qty,Unit Rate,GST%,Taxable,GST,Total\n';
+  document.querySelectorAll('#invBody tr').forEach(r=>{
+    const ins=r.querySelectorAll('input');
+    c+=`"${ins[0].value}","${ins[1]?.value||''}",${ins[2]?.value||1},${ins[3]?.value||0},${r.querySelector('select').value}%,${r.querySelector('.itx').textContent},${r.querySelector('.igst').textContent},${r.querySelector('.itot').textContent}\n`;
+  });
+  dlFile(c,'invoice.csv');
+}
+
+/* ── RECON ── */
+const sampleRecon=[
+  {g:'29ABCDE1234F1Z5',n:'Raj Traders',bt:50000,bg:9000,pt:50000,pg:9000},
+  {g:'27XYZPQ5678G2A6',n:'Mumbai Supplies Pvt Ltd',bt:80000,bg:14400,pt:75000,pg:13500},
+  {g:'33LMNOP9012H3B7',n:'Chennai Works',bt:30000,bg:5400,pt:30000,pg:5400},
+  {g:'06EFGHI3456I4C8',n:'Haryana Goods & Co.',bt:120000,bg:21600,pt:100000,pg:18000},
+];
+function initRecon(){sampleRecon.forEach(d=>addRecon(d));runRecon();}
+function addRecon(d={}){
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="color:var(--t3);font-family:var(--f-m);font-size:9px;">${document.querySelectorAll('#rBody tr').length+1}</td>
+  <td><input class="recon-input" style="text-align:left;min-width:150px;" placeholder="GSTIN" value="${d.g||''}"/></td>
+  <td><input class="recon-input" style="text-align:left;" placeholder="Supplier name" value="${d.n||''}"/></td>
+  <td><input class="recon-input" type="number" value="${d.bt||0}" oninput="runRecon()"/></td>
+  <td><input class="recon-input" type="number" value="${d.bg||0}" oninput="runRecon()"/></td>
+  <td><input class="recon-input" type="number" value="${d.pt||0}" oninput="runRecon()"/></td>
+  <td><input class="recon-input" type="number" value="${d.pg||0}" oninput="runRecon()"/></td>
+  <td class="rd_t gold">0.00</td><td class="rd_g gold">0.00</td><td class="rd_s"></td>`;
+  document.getElementById('rBody').appendChild(tr);runRecon();
+}
+function runRecon(){
+  let bT=0,bG=0,pT=0,pG=0,dT=0,dG=0,match=0,miss=0,risk=0;
+  document.querySelectorAll('#rBody tr').forEach(r=>{
+    const ins=r.querySelectorAll('input[type=number]');
+    const bt=+ins[0].value||0,bg=+ins[1].value||0,pt=+ins[2].value||0,pg=+ins[3].value||0;
+    const dt=bt-pt,dg=bg-pg;
+    const ok=Math.abs(dg)<1;
+    r.querySelector('.rd_t').textContent=fmtN(Math.abs(dt));
+    r.querySelector('.rd_t').className='rd_t '+(dt===0?'green':dt>0?'red':'gold');
+    r.querySelector('.rd_g').textContent=fmtN(Math.abs(dg));
+    r.querySelector('.rd_g').className='rd_g '+(dg===0?'green':dg>0?'red':'gold');
+    r.querySelector('.rd_s').innerHTML=ok?'<span style="color:var(--green);font-family:var(--f-m);font-size:9px;">✓ MATCH</span>':'<span style="color:var(--red);font-family:var(--f-m);font-size:9px;">✗ DIFF</span>';
+    bT+=bt;bG+=bg;pT+=pt;pG+=pg;dT+=Math.abs(dt);dG+=Math.abs(dg);
+    ok?match++:(miss++,risk+=Math.abs(dg));
+  });
+  ['rt_bt,'+bT,'rt_bg,'+bG,'rt_pt,'+pT,'rt_pg,'+pG,'rt_dt,'+dT,'rt_dg,'+dG].forEach(s=>{const[k,v]=s.split(',');const el=document.getElementById(k);if(el)el.textContent=fmtN(+v);});
+  document.getElementById('rs_m').textContent=match;
+  document.getElementById('rs_d').textContent=miss;
+  document.getElementById('rs_i').textContent=fmt(risk);
+}
+function exportRecon(){
+  let c='GSTIN,Supplier,Books Taxable,Books GST,Portal Taxable,Portal GST,Taxable Diff,GST Diff,Status\n';
+  document.querySelectorAll('#rBody tr').forEach(r=>{
+    const ins=r.querySelectorAll('input');
+    c+=`"${ins[0].value}","${ins[1].value}",${ins[2].value},${ins[3].value},${ins[4].value},${ins[5].value},${r.querySelector('.rd_t').textContent},${r.querySelector('.rd_g').textContent},"${r.querySelector('.rd_s').textContent.trim()}"\n`;
+  });
+  dlFile(c,'gstr_recon.csv');
+}
+
+/* ── ITC ── */
+function calcITC(){
+  const ii=+document.getElementById('itc_i').value||0;
+  const ic=+document.getElementById('itc_c').value||0;
+  const is=+document.getElementById('itc_s').value||0;
+  const oi=+document.getElementById('out_i').value||0;
+  const oc=+document.getElementById('out_c').value||0;
+  const os=+document.getElementById('out_s').value||0;
+  document.getElementById('bal_i').textContent=fmt(ii);
+  document.getElementById('bal_c').textContent=fmt(ic);
+  document.getElementById('bal_s').textContent=fmt(is);
+  let ri=ii,rc=ic,rs=is,roi=oi,roc=oc,ros=os,steps=[];
+  const use=(type,against,bal,liab)=>{const u=Math.min(bal,liab);if(u>0)steps.push({t:type,a:against,u,b:bal-u});return[bal-u,liab-u];};
+  [ri,roi]=use('IGST ITC','IGST Liability',ri,roi);
+  [ri,roc]=use('IGST ITC','CGST Liability',ri,roc);
+  [ri,ros]=use('IGST ITC','SGST Liability',ri,ros);
+  [rc,roi]=use('CGST ITC','IGST Liability',rc,roi);
+  [rc,roc]=use('CGST ITC','CGST Liability',rc,roc);
+  [rs,roi]=use('SGST ITC','IGST Liability',rs,roi);
+  [rs,ros]=use('SGST ITC','SGST Liability',rs,ros);
+  const cash=roi+roc+ros;
+  document.getElementById('itcBody').innerHTML=steps.map((s,i)=>`<tr><td style="font-family:var(--f-m);font-size:9px;color:var(--t3);">${i+1}</td><td style="color:var(--gold);">${s.t}</td><td>${s.a}</td><td class="gold">${fmt(s.u)}</td><td style="color:var(--green);">${fmt(s.b)}</td></tr>`).join('');
+  document.getElementById('itc_cash').textContent=fmt(cash);
+  const n=document.getElementById('itc_notice');
+  n.className=cash>0?'notice warn':'notice success';
+  n.innerHTML=cash>0?`<div class="notice-icon">⚠️</div><div class="notice-text">Cash payment of <strong>${fmt(cash)}</strong> required. Pay via Electronic Cash Ledger only.</div>`:'<div class="notice-icon">✅</div><div class="notice-text">All liability covered by ITC. <strong>No cash payment required.</strong></div>';
+}
+
+/* ── HSN ── */
+const hsnDB=[
+  {h:'1006',n:'Rice (Branded)',r:5,d:'Branded packaged rice'},
+  {h:'1001',n:'Wheat / Meslin',r:0,d:'Unbranded wheat and meslin — exempt'},
+  {h:'1701',n:'Sugar',r:5,d:'Raw and refined cane sugar'},
+  {h:'3004',n:'Medicines / Drugs',r:12,d:'Medicaments in dosage form'},
+  {h:'3401',n:'Soap & Detergent',r:18,d:'Toilet soap, detergent bars, washing products'},
+  {h:'4011',n:'Rubber Tyres',r:28,d:'New pneumatic tyres of rubber'},
+  {h:'6101',n:'Men\'s Overcoats / Apparel',r:12,d:'Clothing and articles of apparel above ₹1000'},
+  {h:'7108',n:'Gold (Unwrought)',r:3,d:'Gold in unwrought or semi-manufactured form'},
+  {h:'7113',n:'Gold Jewellery',r:3,d:'Articles of jewellery and precious metal'},
+  {h:'8703',n:'Motor Cars (Passenger)',r:28,d:'Passenger vehicles + 1-22% cess'},
+  {h:'8517',n:'Mobile Phones / Smartphones',r:18,d:'Telephone sets, smartphones'},
+  {h:'8528',n:'Television Sets',r:28,d:'Monitors, projectors, TV sets >32"'},
+  {h:'9503',n:'Toys',r:12,d:'Tricycles, scooters, toys'},
+  {h:'2202',n:'Aerated Drinks',r:28,d:'Waters, mineral water, aerated beverages + 12% cess'},
+  {h:'2401',n:'Tobacco',r:28,d:'Unmanufactured tobacco + cess applicable'},
+  {h:'9983',n:'Consulting / Advisory Services',r:18,d:'Professional, technical, advisory SAC 9983'},
+  {h:'9983',n:'IT / Software Services',r:18,d:'Software development, IT consulting'},
+  {h:'9984',n:'Telecom Services',r:18,d:'Telecommunications and internet services'},
+  {h:'9985',n:'Support / Manpower Services',r:18,d:'Manpower supply, security, housekeeping'},
+  {h:'9954',n:'Construction Services',r:18,d:'Construction of buildings (non-affordable housing)'},
+  {h:'9963',n:'Restaurant / Food Services',r:5,d:'Restaurant without ITC (5%) or with ITC (18%)'},
+  {h:'9964',n:'Passenger Transport (AC)',r:5,d:'Transport of passengers by air / AC rail / AC bus'},
+  {h:'9965',n:'GTA Freight Transport',r:5,d:'Goods transport by road — GTA services'},
+  {h:'9971',n:'Financial & Banking Services',r:18,d:'Financial, insurance, banking related services'},
+  {h:'9972',n:'Real Estate / Renting',r:18,d:'Real estate services (commercial)'},
+  {h:'9980',n:'Educational Services',r:0,d:'Pre-school to higher secondary education — exempt'},
+  {h:'9992',n:'Health Care Services',r:0,d:'Clinical establishment health care — exempt'},
+  {h:'9987',n:'Repair & Maintenance',r:18,d:'Maintenance, repair, installation services'},
+  {h:'9966',n:'Vehicle Rental',r:18,d:'Rental services of transport vehicles with operator'},
+  {h:'0101',n:'Live Animals — Horses',r:0,d:'Live animals, equine species'},
+  {h:'2710',n:'Petroleum / ATF',r:0,d:'Outside GST — governed by central excise'},
+];
+function renderHSN(data){
+  const el=document.getElementById('hsnResults');
+  if(!data||!data.length){el.innerHTML='<p style="color:var(--t2);font-size:0.85rem;padding:14px 0;">No results. Try different keywords.</p>';return;}
+  el.innerHTML=data.map(d=>`<div class="rate-item"><div><div class="rate-name">${d.n}</div><div class="rate-hsn">HSN/SAC ${d.h} · ${d.d}</div></div><div style="text-align:right;"><div class="rate-pct">${d.r}%</div><div style="font-family:var(--f-m);font-size:8px;color:var(--t3);letter-spacing:.1em;">${d.r===0?'EXEMPT':d.r+'% GST'}</div></div></div>`).join('');
+}
+function searchHSN(){
+  const q=document.getElementById('hsn_q').value.toLowerCase();
+  document.querySelectorAll('.rate-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelector('.rate-chip:last-child').classList.add('active');
+  renderHSN(q?hsnDB.filter(d=>d.n.toLowerCase().includes(q)||d.h.includes(q)||d.d.toLowerCase().includes(q)):hsnDB);
+}
+function filterHSN(r){
+  document.querySelectorAll('.rate-chip').forEach((c,i)=>{const rv=[0,5,12,18,28,'all'];c.classList.toggle('active',rv[i]===r);});
+  document.getElementById('hsn_q').value='';
+  renderHSN(r==='all'?hsnDB:hsnDB.filter(d=>d.r===r));
+}
+
+/* ── CALENDAR ── */
+function renderCal(){
+  const type=document.getElementById('ctype').value;
+  const month=document.getElementById('cmon').value;
+  const months=['April','May','June','July','August','September','October','November','December','January','February','March'];
+  const mi=months.indexOf(month);
+  const next=months[(mi+1)%12];
+  const isQEnd=[2,5,8,11].includes(mi);
+  const reg=[
+    {n:'GSTR-1',d:'Outward supplies statement for '+month,due:'11th '+next,s:'warn'},
+    {n:'GSTR-3B',d:'Summary return & tax payment for '+month,due:'20th '+next,s:'warn'},
+    {n:'GSTR-2B (Auto)',d:'Auto-drafted ITC statement available on portal',due:'14th '+next,s:'done'},
+    {n:'ITC Reconciliation',d:'Reconcile GSTR-2B vs purchase register',due:'20th '+next,s:'warn'},
+    ...(isQEnd?[{n:'GSTR-9 (Annual)',d:'Annual return — for previous FY',due:'31st December',s:'miss'}]:[]),
+  ];
+  const qrmp=[
+    {n:'IFF (Optional)',d:'Invoice Furnishing — M1 & M2 of quarter only',due:'13th of respective month',s:'warn'},
+    {n:'PMT-06',d:'Monthly advance tax payment for QRMP',due:'25th of each month',s:isQEnd?'done':'warn'},
+    {n:'GSTR-3B (Quarterly)',d:'Quarterly summary return',due:'22nd–24th after quarter end',s:isQEnd?'warn':'done'},
+  ];
+  const comp=[
+    {n:'CMP-08',d:'Quarterly statement cum advance tax',due:'18th after quarter end',s:isQEnd?'warn':'done'},
+    {n:'GSTR-4 (Annual)',d:'Annual return for composition taxpayers',due:'30th April',s:'warn'},
+  ];
+  const data={reg,qrmp,comp}[type]||reg;
+  document.getElementById('calList').innerHTML=data.map(d=>`<div class="check-item"><div class="check-dot ${d.s}">${d.s==='done'?'✓':d.s==='warn'?'!':'✗'}</div><div class="check-text"><div class="check-name">${d.n}</div><div class="check-desc">${d.d}</div></div><div class="check-due">Due: ${d.due}</div></div>`).join('');
+}
+
+/* ── RCM ── */
+function calcRCM(){
+  const val=+document.getElementById('rcm_val').value||0;
+  const rate=+document.getElementById('rcm_rate').value||18;
+  const type=document.getElementById('rcm_type').value;
+  const gst=val*rate/100;
+  const cg=gst/2,sg=gst/2;
+  document.getElementById('rm_v').textContent=fmt(val);
+  document.getElementById('rm_r').textContent=rate+'%';
+  document.getElementById('rm_cg').textContent=fmt(type==='intra'?cg:0);
+  document.getElementById('rm_sg').textContent=fmt(type==='intra'?sg:0);
+  document.getElementById('rm_ig').textContent=fmt(type==='inter'?gst:0);
+  document.getElementById('rm_tot').textContent=fmt(gst);
+  document.getElementById('rm_cgr').style.display=type==='intra'?'':'none';
+  document.getElementById('rm_sgr').style.display=type==='intra'?'':'none';
+  document.getElementById('rm_igr').style.display=type==='inter'?'':'none';
+}
+
+/* ── UTILITY ── */
+function dlFile(content,name){
+  const b=new Blob([content],{type:'text/plain;charset=utf-8'});
+  const u=URL.createObjectURL(b);
+  const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
+}
+
+// INIT
+calcGST();recalcInv();renderHSN(hsnDB);renderCal();calcRCM();calcITC();
+</script>
+</body>
+</html>

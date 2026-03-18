@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work &amp; Projects — Pushpak Kumar</title>
+  <link rel="icon" href="assets/images/head logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+  <style>
+    /* ── SAME TOKENS AS HOME ── */
+    :root {
+      --gold:#C9A84C; --gold-l:#E2C97A;
+      --gold-dim:rgba(201,168,76,0.10); --gold-bdr:rgba(201,168,76,0.25);
+      --bg:#08090B; --bg-card:#0E1013; --bg-card2:#13151A; --bg-card3:#191C22;
+      --t1:#F0EBE0; --t2:#8A8272; --t3:#3A352C;
+      --divider:rgba(240,235,224,0.06);
+      --f-display:'Cormorant Garamond',Georgia,serif;
+      --f-fran:'Fraunces',Georgia,serif;
+      --f-ui:'DM Sans',sans-serif;
+      --f-mono:'JetBrains Mono',monospace;
+      --r-sm:6px; --r-md:12px; --r-lg:18px; --r-xl:24px;
+      --ease:cubic-bezier(0.25,0.46,0.45,0.94);
+      font-size:17.6px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    /* ── SAME BG AS HOME PAGE ── */
+    body {
+      font-family:var(--f-ui); color:var(--t1);
+      overflow-x:hidden; min-height:100vh; font-size:1rem;
+      background-color:var(--bg);
+      background-image:url('assets/images/home-images/bg_6.jpg');
+      background-attachment:fixed;
+      background-size:cover;
+      background-position:center top;
+      background-repeat:no-repeat;
+    }
+    /* Same dark vignette */
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:radial-gradient(ellipse at 50% 30%, rgba(8,9,11,0.55) 0%, rgba(8,9,11,0.90) 100%);
+      pointer-events:none; z-index:0;
+    }
+    /* Same circuit grid */
+    body::after {
+      content:''; position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='rgba(201%2C168%2C76%2C0.04)' stroke-width='0.6'%3E%3Crect x='5' y='5' width='70' height='70' rx='2'/%3E%3Ccircle cx='5' cy='5' r='1.5'/%3E%3Ccircle cx='75' cy='5' r='1.5'/%3E%3Ccircle cx='5' cy='75' r='1.5'/%3E%3Ccircle cx='75' cy='75' r='1.5'/%3E%3Cline x1='40' y1='5' x2='40' y2='0'/%3E%3Cline x1='40' y1='75' x2='40' y2='80'/%3E%3C/g%3E%3C/svg%3E");
+      background-size:80px 80px; pointer-events:none; z-index:0;
+      animation:gridDrift 40s linear infinite;
+    }
+    @keyframes gridDrift{0%{background-position:0 0}100%{background-position:80px 80px}}
+    a{text-decoration:none;color:inherit;}
+    ::-webkit-scrollbar{width:3px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+    img{max-width:100%;display:block;}
+
+    /* ── HEADER ── */
+    #pjHeader{position:sticky;top:0;z-index:1000;padding:10px 24px;}
+    .pj-hdr{
+      background:rgba(14,16,19,0.92); backdrop-filter:blur(20px);
+      border:1px solid var(--divider); border-radius:var(--r-xl);
+      padding:10px 20px; display:flex; align-items:center; justify-content:space-between;
+      box-shadow:0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,168,76,0.05);
+      position:relative; z-index:1;
+    }
+    .pj-logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:15px;font-weight:700;color:var(--t1);}
+    .pj-logo span{color:var(--gold);}
+    .pj-right{display:flex;align-items:center;gap:12px;}
+    .pj-back{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);border:1px solid var(--gold-bdr);padding:7px 16px;border-radius:20px;transition:all .25s;}
+    .pj-back:hover{color:var(--gold);border-color:var(--gold);background:var(--gold-dim);}
+    .pj-cv{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--gold);color:#08090B;padding:8px 18px;border-radius:20px;font-weight:600;transition:all .25s;border:none;cursor:pointer;}
+    .pj-cv:hover{background:var(--gold-l);transform:translateY(-1px);}
+
+    /* ── WRAPPER ── */
+    .pj-wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px 80px;}
+
+    /* ── HERO ── */
+    .pj-hero{padding:56px 0 48px;border-bottom:1px solid var(--divider);margin-bottom:48px;}
+    .pj-eyebrow{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:18px;}
+    .pj-eyebrow::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+    .pj-h1{font-family:var(--f-fran);font-size:clamp(32px,4.5vw,68px);font-weight:700;line-height:1.05;margin-bottom:16px;}
+    .pj-h1 em{color:var(--gold);font-style:italic;}
+    .pj-sub{font-size:1rem;color:var(--t2);max-width:600px;line-height:1.85;margin-bottom:36px;}
+
+    /* Stats strip */
+    .stat-strip{display:flex;flex-wrap:wrap;gap:3px;border:1px solid var(--divider);border-radius:var(--r-lg);overflow:hidden;max-width:680px;}
+    .stat-box{flex:1;min-width:130px;padding:18px 22px;border-right:1px solid var(--divider);}
+    .stat-box:last-child{border-right:none;}
+    .stat-num{font-family:var(--f-fran);font-size:2rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);}
+    .stat-sub{font-size:.78rem;color:var(--t2);margin-top:3px;line-height:1.4;}
+
+    /* ── FILTER ── */
+    .pj-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+    .fb{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border-radius:20px;border:1px solid var(--divider);color:var(--t2);background:transparent;cursor:pointer;transition:all .22s;}
+    .fb:hover{color:var(--t1);border-color:var(--gold-bdr);}
+    .fb.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+
+    /* ── CARDS GRID ── */
+    .pj-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .pj-card{background:var(--bg-card);border:1px solid var(--divider);border-radius:var(--r-lg);overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;display:flex;flex-direction:column;opacity:0;transform:translateY(20px);animation:cardIn .55s var(--ease) forwards;}
+    @keyframes cardIn{to{opacity:1;transform:translateY(0);}}
+    .pj-card:hover{border-color:var(--gold-bdr);box-shadow:0 20px 60px rgba(0,0,0,0.5);transform:translateY(-4px);}
+    .pj-card.wide{grid-column:1/-1;}
+    .pj-card[data-hidden="true"]{display:none;}
+
+    .card-topbar{height:3px;background:linear-gradient(90deg,var(--bar-a,#C9A84C),var(--bar-b,#E2C97A));}
+
+    .card-hd{padding:22px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+    .card-ico{width:44px;height:44px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .card-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+    .ctag{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid;white-space:nowrap;}
+
+    .card-bd{padding:16px 24px 24px;flex:1;display:flex;flex-direction:column;gap:14px;}
+    .card-title{font-family:var(--f-fran);font-size:1.25rem;font-weight:700;line-height:1.2;color:var(--t1);}
+    .card-title em{font-style:italic;color:var(--gold);}
+
+    /* Work bullets */
+    .work-bullets{display:flex;flex-direction:column;gap:8px;}
+    .wb{display:flex;gap:10px;align-items:flex-start;}
+    .wb-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px;}
+    .wb-text{font-size:.9rem;color:var(--t2);line-height:1.7;}
+    .wb-text strong{color:var(--t1);font-weight:600;}
+
+    /* Outcome metric row */
+    .metric-row{display:flex;gap:3px;flex-wrap:wrap;}
+    .metric{flex:1;min-width:90px;background:var(--bg-card2);border:1px solid var(--divider);border-radius:var(--r-sm);padding:12px 14px;text-align:center;}
+    .metric-val{font-family:var(--f-fran);font-size:1.4rem;font-weight:700;line-height:1;margin-bottom:3px;}
+    .metric-lbl{font-family:var(--f-mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);}
+
+    /* Tools */
+    .card-tools{display:flex;gap:6px;flex-wrap:wrap;}
+    .tool{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;background:var(--bg-card3);border:1px solid var(--divider);color:var(--t2);padding:4px 9px;border-radius:4px;display:flex;align-items:center;gap:4px;}
+    .tdot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+
+    /* Org badge */
+    .org-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:20px;padding:4px 12px;margin-bottom:4px;}
+
+    /* ── CTA ── */
+    .pj-cta{margin-top:48px;background:var(--bg-card);border:1px solid var(--gold-bdr);border-radius:var(--r-xl);padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;position:relative;overflow:hidden;}
+    .pj-cta::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+    .cta-glow{position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none;}
+    .cta-eye{font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+    .cta-h{font-family:var(--f-fran);font-size:clamp(22px,2.8vw,36px);font-weight:700;line-height:1.1;margin-bottom:12px;color:var(--t1);}
+    .cta-h em{color:var(--gold);font-style:italic;}
+    .cta-p{font-size:.9rem;color:var(--t2);line-height:1.8;max-width:480px;}
+    .cta-btns{display:flex;flex-direction:column;gap:10px;align-items:center;flex-shrink:0;}
+    .btn-prim{white-space:nowrap;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#08090B;font-family:var(--f-ui);font-size:12px;font-weight:700;letter-spacing:.04em;padding:13px 28px;border-radius:var(--r-md);border:none;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(201,168,76,0.3);display:inline-block;text-align:center;}
+    .btn-prim:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,0.45);}
+    .btn-sec{white-space:nowrap;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);border:1px solid var(--divider);padding:9px 22px;border-radius:20px;transition:all .25s;display:inline-block;text-align:center;}
+    .btn-sec:hover{color:var(--gold);border-color:var(--gold-bdr);}
+
+    /* ── FOOTER ── */
+    .pj-footer{border-top:1px solid var(--divider);padding:24px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:48px;}
+    .pj-footer p{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--t3);}
+    .pj-footer span{font-family:var(--f-display);font-size:12px;color:var(--t2);}
+    .pj-footer span em{color:var(--gold);}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .pj-wrap{padding:0 18px 60px;}
+      .pj-grid{grid-template-columns:1fr;}
+      .pj-card.wide{grid-column:1;}
+      .pj-cta{flex-direction:column;padding:32px 24px;}
+      .cta-btns{flex-direction:row;align-items:flex-start;}
+      .stat-strip{max-width:100%;}
+      #pjHeader{padding:10px 16px;}
+    }
+    @media(max-width:600px){
+      .pj-hero{padding:36px 0 32px;}
+      .pj-grid{gap:12px;}
+      .stat-box{min-width:110px;}
+      .metric-row{flex-wrap:wrap;}
+      .metric{min-width:70px;}
+      .card-bd{padding:14px 16px 20px;}
+      .card-hd{padding:18px 16px 0;}
+      .pj-cta{padding:24px 18px;}
+      .cta-btns{flex-direction:column;width:100%;}
+      .btn-prim,.btn-sec{width:100%;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="pjHeader">
+  <div class="pj-hdr">
+    <a href="index.html" class="pj-logo">
+      <svg viewBox="0 0 50 50" width="32" height="32">
+        <polygon points="25,3 47,14 47,36 25,47 3,36 3,14" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="25" y="31" text-anchor="middle" fill="#F0EBE0" font-family="'Cormorant Garamond'" font-size="13" font-weight="700">PKCP</text>
+      </svg>
+      Pushpak <span>Kumar</span>
+    </a>
+    <div class="pj-right">
+      <a href="index.html" class="pj-back">← Portfolio</a>
+      <button class="pj-cv" onclick="dlCV()">Download CV ↓</button>
+    </div>
+  </div>
+</div>
+
+<div class="pj-wrap">
+
+  <!-- HERO -->
+  <div class="pj-hero">
+    <div class="pj-eyebrow">Internship · Articleship · Live Work</div>
+    <h1 class="pj-h1">What I've actually <em>done.</em></h1>
+    <p class="pj-sub">Real work, real clients, real compliance. These aren't theoretical exercises — every entry below is from active internship at RBI, articleship at BDO India, or independent practice. Data, filings, audits, and tools I personally built and delivered.</p>
+    <div class="stat-strip">
+      <div class="stat-box">
+        <div class="stat-num">10+</div>
+        <div class="stat-lbl">GST Hearings</div>
+        <div class="stat-sub">Attended at BDO India</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">6mo</div>
+        <div class="stat-lbl">RBI Internship</div>
+        <div class="stat-sub">Macroeconomic Research</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">25+</div>
+        <div class="stat-lbl">Clients Served</div>
+        <div class="stat-sub">GST Compliance</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">CA</div>
+        <div class="stat-lbl">Inter Cleared</div>
+        <div class="stat-sub">ICAI · 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="pj-filter">
+    <button class="fb active" data-f="all">All Work</button>
+    <button class="fb" data-f="rbi">RBI Internship</button>
+    <button class="fb" data-f="bdo">BDO Articleship</button>
+    <button class="fb" data-f="tools">Tools Built</button>
+  </div>
+
+  <!-- CARDS -->
+  <div class="pj-grid" id="pjGrid">
+
+    <!-- ═══ RBI — MACROECONOMIC RESEARCH (WIDE) ═══ -->
+    <div class="pj-card wide" data-cat="rbi" style="animation-delay:.05s">
+      <div class="card-topbar" style="--bar-a:#C9A84C;--bar-b:#E2C97A;"></div>
+      <div class="card-hd">
+        <div class="card-ico" style="background:rgba(201,168,76,0.1);">📊</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);">RBI Internship</span>
+          <span class="ctag" style="color:#7aba8a;border-color:rgba(74,154,106,0.3);background:rgba(74,154,106,0.08);">Top Performer</span>
+          <span class="ctag" style="color:var(--t2);border-color:var(--divider);">Jun–Nov 2024</span>
+        </div>
+      </div>
+      <div class="card-bd">
+        <div class="org-badge">🏛️ Reserve Bank of India, Bengaluru</div>
+        <div class="card-title">Macroeconomic Research &amp; <em>Monetary Policy Analysis</em></div>
+        <div class="work-bullets">
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Analysed <strong>India's GDP growth trajectory</strong> across FY20–FY24, building data models tracking sectoral contributions — agriculture, manufacturing, services — using RBI's DBIE database and MOSPI datasets.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Tracked <strong>CPI and WPI inflation trends</strong> month-on-month, mapping their relationship with RBI's repo rate decisions and MPC minutes across 6 policy cycles.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Monitored <strong>Basel III capital adequacy norms</strong> — CRAR, Tier 1 Capital, PCR ratios — for Scheduled Commercial Banks using RBI's published Financial Stability Reports.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Prepared <strong>weekly research briefs</strong> on fiscal deficit trends, government borrowing programmes, OMO operations, and their impact on the yield curve.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Studied <strong>SLR and CRR compliance</strong> across bank categories — public sector, private, foreign — and their operational impact on credit growth and liquidity management.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Received <strong>Top Performer award</strong> for quality of research output, data accuracy, and timely delivery of assigned briefs.</div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="metric-val" style="color:var(--gold);">6mo</div><div class="metric-lbl">Duration</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7aba8a;">Top</div><div class="metric-lbl">Performer Award</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7a9ad5;">GDP+</div><div class="metric-lbl">Inflation Analysis</div></div>
+          <div class="metric"><div class="metric-val" style="color:var(--gold);">Basel III</div><div class="metric-lbl">Norm Monitoring</div></div>
+        </div>
+        <div class="card-tools">
+          <span class="tool"><span class="tdot" style="background:#1d6f42;"></span>Excel Advanced</span>
+          <span class="tool"><span class="tdot" style="background:var(--gold);"></span>RBI DBIE</span>
+          <span class="tool"><span class="tdot" style="background:#4a7ab5;"></span>MOSPI Data</span>
+          <span class="tool"><span class="tdot" style="background:#7a4ab5;"></span>FSR Reports</span>
+          <span class="tool"><span class="tdot" style="background:#3572a5;"></span>Python</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BDO — GST COMPLIANCE ═══ -->
+    <div class="pj-card" data-cat="bdo" style="animation-delay:.1s">
+      <div class="card-topbar" style="--bar-a:#4a7ab5;--bar-b:#7aa5d5;"></div>
+      <div class="card-hd">
+        <div class="card-ico" style="background:rgba(74,122,181,0.1);">🧾</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:#7a9ad5;border-color:rgba(74,122,181,0.3);background:rgba(74,122,181,0.08);">BDO Articleship</span>
+          <span class="ctag" style="color:var(--t2);border-color:var(--divider);">Dec 2025–Present</span>
+        </div>
+      </div>
+      <div class="card-bd">
+        <div class="org-badge">🏢 BDO Service India Pvt Ltd</div>
+        <div class="card-title">GST Compliance &amp; <em>Monthly Filings</em></div>
+        <div class="work-bullets">
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Handled <strong>monthly GST compliance for 25+ clients</strong> — accurate and timely filing of GSTR-1 (outward supplies), GSTR-3B (summary return), and GSTR-6 (input service distributor).</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Filed <strong>GST REG-01 new registration applications</strong>, tracked portal status, and effectively responded to departmental queries and objections.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Attended <strong>10+ GST Personal Hearings</strong> before adjudicating authorities on behalf of clients — prepared submissions, supporting documents, and reply briefs that minimised tax demand exposure.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Built <strong>Excel-based compliance trackers</strong> using VLOOKUP, INDEX-MATCH and conditional formatting to flag missing invoices, duplicate entries, and reconciliation gaps.</div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="metric-val" style="color:var(--gold);">25+</div><div class="metric-lbl">Clients</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7aba8a;">10+</div><div class="metric-lbl">Hearings</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7a9ad5;">0</div><div class="metric-lbl">Missed Deadlines</div></div>
+        </div>
+        <div class="card-tools">
+          <span class="tool"><span class="tdot" style="background:#1d6f42;"></span>Excel Advanced</span>
+          <span class="tool"><span class="tdot" style="background:var(--gold);"></span>GST Portal</span>
+          <span class="tool"><span class="tdot" style="background:#4a7ab5;"></span>Tally ERP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BDO — ITC RECONCILIATION ═══ -->
+    <div class="pj-card" data-cat="bdo" style="animation-delay:.15s">
+      <div class="card-topbar" style="--bar-a:#C9A84C;--bar-b:#E2C97A;"></div>
+      <div class="card-hd">
+        <div class="card-ico" style="background:rgba(201,168,76,0.1);">🔍</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);">BDO Articleship</span>
+          <span class="ctag" style="color:#7aba8a;border-color:rgba(74,154,106,0.3);background:rgba(74,154,106,0.08);">ITC Audit</span>
+        </div>
+      </div>
+      <div class="card-bd">
+        <div class="org-badge">🏢 BDO Service India Pvt Ltd</div>
+        <div class="card-title">GSTR-2A/2B <em>Reconciliation</em> &amp; ITC Optimisation</div>
+        <div class="work-bullets">
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Performed <strong>GSTR-2A vs purchase register reconciliation</strong> for multiple clients — matching invoice-level data across GSTIN, invoice numbers, dates, and tax amounts.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Categorised mismatches into actionable buckets: <strong>supplier not filed, rate differences, invoice date errors, missing entries</strong> — prioritised by ITC value at risk.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Created a <strong>reusable reconciliation template</strong> adopted by the team as the standard working paper format — reduced future reconciliation time significantly.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Saved eligible ITC from lapsing and generated <strong>vendor follow-up lists</strong> for each mismatch category.</div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="metric-val" style="color:var(--gold);">ITC</div><div class="metric-lbl">Leakage Prevented</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7aba8a;">↓70%</div><div class="metric-lbl">Recon Time Saved</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7a9ad5;">✓</div><div class="metric-lbl">Template Adopted</div></div>
+        </div>
+        <div class="card-tools">
+          <span class="tool"><span class="tdot" style="background:#1d6f42;"></span>Excel VLOOKUP</span>
+          <span class="tool"><span class="tdot" style="background:var(--gold);"></span>GST Portal</span>
+          <span class="tool"><span class="tdot" style="background:#4a7ab5;"></span>Tally ERP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BDO — GSTR-9 ANNUAL RETURN (WIDE) ═══ -->
+    <div class="pj-card wide" data-cat="bdo" style="animation-delay:.18s">
+      <div class="card-topbar" style="--bar-a:#7a4ab5;--bar-b:#a57ad5;"></div>
+      <div class="card-hd">
+        <div class="card-ico" style="background:rgba(122,74,181,0.1);">📋</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:#c57ad5;border-color:rgba(122,74,181,0.3);background:rgba(122,74,181,0.08);">GSTR-9</span>
+          <span class="ctag" style="color:var(--t2);border-color:var(--divider);">Annual Return</span>
+          <span class="ctag" style="color:#7aba8a;border-color:rgba(74,154,106,0.3);background:rgba(74,154,106,0.08);">BDO Articleship</span>
+        </div>
+      </div>
+      <div class="card-bd">
+        <div class="org-badge">🏢 BDO Service India Pvt Ltd</div>
+        <div class="card-title">GSTR-9 Annual Return — <em>12-Month Data Reconciliation &amp; Filing</em></div>
+        <div class="work-bullets">
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Conducted <strong>month-by-month comparison of reported turnover</strong> vs books of accounts across multiple GSTINs — reconciled differences arising from amendment entries, credit notes, and debit notes.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Prepared <strong>detailed reconciliation workings</strong> with full audit trail for each adjustment — explained differences to clients in plain terms before filing.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Supported <strong>GSTR-9C (audited reconciliation statement)</strong> preparation — cross-checked audited financials against GSTR-3B figures for each head of supply.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Achieved <strong>clean filing with zero post-submission revisions</strong> required — clients briefed thoroughly on disclosed differences so no surprises during scrutiny assessment.</div></div>
+        </div>
+        <div class="card-tools">
+          <span class="tool"><span class="tdot" style="background:#1d6f42;"></span>Excel</span>
+          <span class="tool"><span class="tdot" style="background:var(--gold);"></span>GST Portal</span>
+          <span class="tool"><span class="tdot" style="background:#4a7ab5;"></span>Tally</span>
+          <span class="tool"><span class="tdot" style="background:#7a4ab5;"></span>GSTR-9C</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TOOLS BUILT ═══ -->
+    <div class="pj-card wide" data-cat="tools" style="animation-delay:.22s">
+      <div class="card-topbar" style="--bar-a:#4a9a6a;--bar-b:#7ac59a;"></div>
+      <div class="card-hd">
+        <div class="card-ico" style="background:rgba(74,154,106,0.1);">⚙️</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:#7aba8a;border-color:rgba(74,154,106,0.3);background:rgba(74,154,106,0.08);">Independent</span>
+          <span class="ctag" style="color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);">Live Tools</span>
+          <span class="ctag" style="color:var(--t2);border-color:var(--divider);">Oct 2024–Present</span>
+        </div>
+      </div>
+      <div class="card-bd">
+        <div class="org-badge">🌐 Independent / Living to Zeil Platform</div>
+        <div class="card-title">Finance Tools &amp; <em>Workflow Automation</em> — Built &amp; Deployed</div>
+        <div class="work-bullets">
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Built a browser-based <strong>HRA Calculator</strong> — allows employees to compute House Rent Allowance exemption under Section 10(13A), handling all three conditions (50%/40% salary, actual HRA, excess rent) automatically.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Built a <strong>GST Calculator</strong> supporting all GST rates (5%, 12%, 18%, 28%), both inclusive and exclusive calculations, with instant CGST/SGST/IGST breakdowns — used by professionals for quick estimates.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Built a <strong>Receipt Generator</strong> — creates printable professional receipts in browser, no server required, no installs, used directly from the website.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Developed <strong>Excel macro templates</strong> for GST reconciliation — automated VLOOKUP matching logic, conditional formatting for mismatches, and summary report generation.</div></div>
+          <div class="wb"><div class="wb-dot"></div><div class="wb-text">Founded <strong>Living to Zeil</strong> — a content and tools platform combining finance writing, practical calculators, and fintech UI — designed for students and professionals.</div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="metric-val" style="color:#7aba8a;">3+</div><div class="metric-lbl">Live Tools</div></div>
+          <div class="metric"><div class="metric-val" style="color:var(--gold);">Harvard</div><div class="metric-lbl">HCAP Selected</div></div>
+          <div class="metric"><div class="metric-val" style="color:#7a9ad5;">∞</div><div class="metric-lbl">Reusable Templates</div></div>
+        </div>
+        <div class="card-tools">
+          <span class="tool"><span class="tdot" style="background:#e34c26;"></span>HTML / CSS</span>
+          <span class="tool"><span class="tdot" style="background:#f7df1e;"></span>JavaScript</span>
+          <span class="tool"><span class="tdot" style="background:#1d6f42;"></span>Excel / VBA</span>
+          <span class="tool"><span class="tdot" style="background:#3572a5;"></span>Python</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pj-grid -->
+
+  <!-- CTA -->
+  <div class="pj-cta">
+    <div class="cta-glow"></div>
+    <div>
+      <div class="cta-eye">Open to Opportunities</div>
+      <div class="cta-h">Finance knowledge + the ability to <em>build tools</em> —</div>
+      <p class="cta-p">RBI research. BDO GST compliance. Live tools deployed. These aren't test projects — they're real outputs from real engagements. If you're looking for someone who understands both the rules and how to automate them, let's talk.</p>
+    </div>
+    <div class="cta-btns">
+      <button class="btn-prim" onclick="dlCV()">Download Full CV ↓</button>
+      <a href="index.html#contact" class="btn-sec">Get in Touch →</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="pj-footer">
+    <p>© 2025 Pushpak Kumar Charan Pahari — Work &amp; Projects</p>
+    <span>Built with <em>rigour</em></span>
+  </div>
+
+</div><!-- /pj-wrap -->
+
+<script>
+  /* ── PDF DOWNLOAD ── */
+  function dlCV() {
+    var path = 'assets/pdf/PUSHPAK KUMAR _Resume.pdf';
+    fetch(path)
+      .then(function(r){ if(!r.ok) throw 0; return r.blob(); })
+      .then(function(b){
+        var u = URL.createObjectURL(b);
+        var a = document.createElement('a');
+        a.href = u; a.download = 'Pushpak_Kumar_Resume.pdf';
+        document.body.appendChild(a); a.click();
+        URL.revokeObjectURL(u); a.remove();
+      })
+      .catch(function(){ window.open(path,'_blank'); });
+  }
+
+  /* ── FILTER ── */
+  document.querySelectorAll('.fb').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.fb').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      var f = this.dataset.f;
+      document.querySelectorAll('.pj-card').forEach(function(c){
+        c.style.display = (f === 'all' || c.dataset.cat === f) ? 'flex' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

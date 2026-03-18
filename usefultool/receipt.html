@@ -1,0 +1,348 @@
+<doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rent Receipt Generator • Pushpak Kumar</title>
+
+<style>
+/* -------------------------Theme variables (Dark Version)
+ 
+:root{
+  --page-bg:#0d0f14;
+  --sheet-bg:#161a20;
+  --panel-bg:#1f242c;
+  --text:#ffffff;
+  --muted:#9ba3b4;
+  --accent:#ffffff;
+  --input-border:#2d333d;
+  --radius:12px;
+  --shadow:0 6px 16px rgba(0,0,0,0.45);
+  --max-width-mm:210mm;
+}
+
+html,body{
+  height:100%; margin:0;
+  background:var(--page-bg);
+  font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--text);
+}
+
+.wrap{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:28px;
+}
+
+.sheet{
+  width:calc(var(--max-width-mm));
+  max-width:100%;
+  background:var(--sheet-bg);
+  box-shadow:var(--shadow);
+  border-radius:14px;
+  padding:18mm 14mm;
+  box-sizing:border-box;
+  position:relative;
+}
+
+/* Watermark layer (darkened) */
+.bg{
+  position:absolute; inset:0;
+  opacity:.05;
+  background:#000;
+  border-radius:14px;
+  pointer-events:none;
+}
+
+.content{position:relative; z-index:2;}
+
+/* Header */
+.header{
+  display:flex; justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.brand h1{margin:0; font-size:18px; color:#fff;}
+.brand p{margin:0; font-size:12px; color:var(--muted);}
+
+/* Panel */
+.panel{
+  background:var(--panel-bg);
+  border-radius:var(--radius);
+  padding:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.35);
+}
+
+/* Inputs */
+label{
+  display:block; font-size:12px; color:var(--muted);
+  margin-bottom:6px;
+}
+
+input[type=text],
+input[type=number],
+textarea{
+  width:100%; padding:8px 10px;
+  font-size:13px;
+  color:#fff;
+  background:#101318;
+  border:1px solid var(--input-border);
+  border-radius:8px;
+}
+
+textarea{min-height:56px;}
+
+input[readonly]{
+  background:transparent;
+  border:0;
+  font-weight:600;
+}
+
+/* Table */
+table{width:100%; border-collapse:collapse;}
+th{
+  background:#181c22;
+  color:var(--muted);
+  font-size:11px;
+}
+td{
+  border-bottom:1px solid #2e333b;
+  color:#fff;
+}
+
+/* Totals */
+.card.panel{
+  background:#1c2027;
+}
+
+/* Controls */
+.controls button{
+  padding:8px 12px;
+  border-radius:8px;
+  font-size:13px;
+  background:#ffffff;
+  color:#000;
+  border:0;
+  cursor:pointer;
+}
+.controls button.secondary{
+  background:transparent;
+  color:#fff;
+  border:1px solid #555;
+}
+
+/* Print */
+@media print {
+  body{background:#fff;}
+  .controls{display:none!important;}
+  .sheet{
+    background:white;
+    color:black;
+    box-shadow:none;
+    padding:18mm;
+  }
+  input,textarea{
+    border:0!important;
+    background:transparent!important;
+    color:black!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+<div class="sheet">
+
+  <div class="bg"></div>
+
+  <div class="content">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">
+        <h1>Rent Receipt</h1>
+        <p>A simple, printable A4 rent receipt — minimal & clean</p>
+      </div>
+
+      <div style="text-align:right;">
+        <div style="font-size:12px; color:var(--muted);">Receipt Date</div>
+        <input id="receiptDate" type="text" />
+
+        <div style="font-size:12px; margin-top:8px; color:var(--muted);">Receipt #</div>
+        <input id="receiptNo" type="text" />
+      </div>
+    </div>
+
+    <!-- Payee / Payer -->
+    <div class="col panel" style="display:flex; gap:12px; margin-bottom:12px;">
+      <div class="col panel" style="flex:1;">
+        <label>Payment To (Payee)</label>
+        <input id="payeeName" type="text" placeholder="Name / Landlord" />
+
+        <div class="row" style="display:flex; gap:12px; margin-top:8px;">
+          <div class="col" style="flex:1;">
+            <label>Phone</label>
+            <input id="payeePhone" type="text" />
+          </div>
+          <div class="col" style="flex:1;">
+            <label>Address</label>
+            <input id="payeeAddress" type="text" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col panel" style="flex:1;">
+        <label>From (Payer / Tenant)</label>
+        <input id="payerName" type="text" placeholder="Name / Tenant" />
+
+        <div class="row" style="display:flex; gap:12px; margin-top:8px;">
+          <div class="col" style="flex:1;">
+            <label>Phone</label>
+            <input id="payerPhone" type="text" />
+          </div>
+          <div class="col" style="flex:1;">
+            <label>Address</label>
+            <input id="payerAddress" type="text" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div class="panel items" id="itemsPanel">
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Totals -->
+    <div class="totals" style="display:flex; justify-content:flex-end; margin-top:12px;">
+      <div class="card panel" style="width:260px;">
+        <div class="rowitem" style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <div>Sub Total</div>
+          <input id="subTotal" type="text" readonly />
+        </div>
+
+        <div class="rowitem" style="margin-bottom:8px;">
+          <div style="font-size:12px; color:var(--muted);">Tax (%)</div>
+          <input id="taxPercent" type="number" value="0" />
+        </div>
+
+        <div class="rowitem" style="display:flex; justify-content:space-between;">
+          <strong>Total</strong>
+          <strong><input id="grandTotal" type="text" readonly /></strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer" style="display:flex; gap:12px; margin-top:18px;">
+      <div class="note panel" style="flex:1;">
+        <label>Note</label>
+        <textarea id="note"></textarea>
+      </div>
+
+      <div class="signature panel" style="width:200px; text-align:center;">
+        <div style="color:var(--muted); font-size:12px;">Received by</div>
+        <div class="line" style="border-top:1px solid #2d333d; margin-top:26px; padding-top:8px; color:var(--muted);">Signature</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls" style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
+      <!-- Auto-fill removed -->
+      <button type="button" class="secondary" onclick="addRow()">+ Add row</button>
+      <button type="button" class="secondary" onclick="removeRow()">- Remove row</button>
+      <button type="button" onclick="calculate()">Calculate</button>
+      <button type="button" onclick="window.print()">Print / Save as PDF</button>
+      <button type="button" class="secondary" onclick="downloadHtml()">Download HTML</button>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+/* ORIGINAL JS — unchanged except autoFill removed */
+const MAX_ROWS=8;
+function toNumber(v){return Number(v)||0;}
+function fmt(v){return (Math.round(v*100)/100).toFixed(2);}
+const itemsBody=document.getElementById("itemsBody");
+
+function createRow(desc="",qty=0,price=0){
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td><input class="desc" type="text" value="${desc}" placeholder="Description"></td>
+    <td><input class="qty" type="number" value="${qty}"></td>
+    <td><input class="price" type="number" value="${price}" step="0.01"></td>
+    <td><input class="lineTotal" type="text" value="${fmt(qty*price)}" readonly></td>
+  `;
+  tr.querySelector(".qty").oninput=calculate;
+  tr.querySelector(".price").oninput=calculate;
+  return tr;
+}
+
+function seedRows(){
+  itemsBody.innerHTML="";
+  itemsBody.appendChild(createRow("Monthly Rent",1,15000));
+  itemsBody.appendChild(createRow("Parking",1,500));
+  itemsBody.appendChild(createRow("Maintenance",1,0));
+}
+seedRows();
+
+function calculate(){
+  let subtotal=0;
+  document.querySelectorAll("#itemsBody tr").forEach(r=>{
+    const qty=toNumber(r.querySelector(".qty").value);
+    const price=toNumber(r.querySelector(".price").value);
+    const total=qty*price;
+    r.querySelector(".lineTotal").value=fmt(total);
+    subtotal+=total;
+  });
+  document.getElementById("subTotal").value=fmt(subtotal);
+  const tax=toNumber(document.getElementById("taxPercent").value);
+  document.getElementById("grandTotal").value=fmt(subtotal+(subtotal*tax/100));
+}
+
+function addRow(){
+  if(itemsBody.children.length>=MAX_ROWS) return alert("Max rows reached");
+  itemsBody.appendChild(createRow("",0,0));
+}
+
+function removeRow(){
+  if(itemsBody.children.length<=1) return;
+  itemsBody.removeChild(itemsBody.lastChild);
+}
+
+function downloadHtml(){
+  const clone=document.querySelector(".sheet").cloneNode(true);
+  clone.querySelectorAll("input,textarea").forEach(inp=>{
+    const div=document.createElement("div");
+    div.textContent=inp.value;
+    div.style.fontSize="13px";
+    inp.replaceWith(div);
+  });
+  const file=`<!doctype html><html><head><meta charset='utf-8'>
+  <title>Rent Receipt</title></head><body>${clone.innerHTML}</body></html>`;
+  const blob=new Blob([file],{type:"text/html"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="rent_receipt.html";
+  a.click();
+}
+</script>
+
+
+
+</body>
+</html>

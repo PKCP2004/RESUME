@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Articles from API</title>
+</head>
+<body>
+  <h1>Articles</h1>
+  <div id="articles-list">
+    Loading articles…
+  </div>
+
+  <script>
+    async function loadArticles() {
+      try {
+        const response = await fetch('https://pushpakkumar.in/api/articles');
+        if (!response.ok) {
+          throw new Error('Network response was not OK: ' + response.status);
+        }
+        const data = await response.json();
+        console.log(data); // For debugging — see what structure the JSON has
+
+        const container = document.getElementById('articles-list');
+        container.innerHTML = ''; // clear loading text
+
+        // Assume `data` is an array of article objects
+        data.forEach(article => {
+          const articleDiv = document.createElement('div');
+          articleDiv.style.marginBottom = '20px';
+
+          const title = document.createElement('h2');
+          title.textContent = article.title;  // change `title` key as per your JSON
+
+          const body = document.createElement('p');
+          body.textContent = article.body;   // change `body` key as per your JSON
+
+          articleDiv.appendChild(title);
+          articleDiv.appendChild(body);
+          container.appendChild(articleDiv);
+        });
+
+      } catch (error) {
+        console.error('Error loading articles:', error);
+        document.getElementById('articles-list').textContent = 'Failed to load articles.';
+      }
+    }
+
+    loadArticles();
+  </script>
+</body>
+</html>
